@@ -10,14 +10,14 @@ class repeatCount {
 private:
 	int number;
 	my_word* myword;
-	vector<string> v_sort;//ÓÃÀ´ÅÅĞò
-	vector<string> v;//ÓÃÀ´±£´æÆµÂÊ×î¸ßµÄ10¸ö´Ê
+	vector<string> v_sort;//ç”¨æ¥æ’åº
+	vector<string> v;//ç”¨æ¥ä¿å­˜é¢‘ç‡æœ€é«˜çš„10ä¸ªè¯
 	vector<string>::iterator it;
 	int* num;
 
 public:
 	repeatCount(int n) {
-		myword = new my_word[100];
+		myword = new my_word[n+1];
 		num = (int*)malloc((n + 1) * sizeof(int));
 	}
 
@@ -39,15 +39,15 @@ public:
 		//string str;
 		char data[256];
 		int tmp = 0;
-		int tmp_1 = 0;//Í³¼Æµ¥´Ê¿ªÍ·×ÖÄ¸¸öÊı
-		int tmp_2 = 0;//¼ÇÂ¼µ¥´Ê¿ªÍ·²¿·ÖµÄÎ»ÖÃ
-		bool flag = true;//±êÖ¾·Ö¸ô·û
+		int tmp_1 = 0;//ç»Ÿè®¡å•è¯å¼€å¤´å­—æ¯ä¸ªæ•°
+		int tmp_2 = 0;//è®°å½•å•è¯å¼€å¤´éƒ¨åˆ†çš„ä½ç½®
+		bool flag = true;//æ ‡å¿—åˆ†éš”ç¬¦
 		
 		while (inputFile.getline(data,256)){
 			for (int i = 0;i < strlen(data);i++) {
 				if (isalpha(data[i])) {
 					data[i]=tolower(data[i]);
-				}//È«²¿×ª»»ÎªĞ¡Ğ´
+				}//å…¨éƒ¨è½¬æ¢ä¸ºå°å†™
 				if ((data[i] >= 'a' && data[i] <= 'z') || (data[i] >= 'A' && data[i] <= 'Z')||(tmp_1>=4&& (data[i] >= '0' && data[i] <= '9'))){
 					if (flag) {
 						if (tmp_1 == 0) {
@@ -122,7 +122,7 @@ public:
 		int max = myword[0].getFreque();
 		int max_1=0;
 		int max_2 = 0;
-		int max_len = 0;//×î³£³öÏÖµÄµ¥´ÊÊıÄ¿
+		int max_len = 0;//æœ€å¸¸å‡ºç°çš„å•è¯æ•°ç›®
 		num[0] = 0;
 		for (int j = 0;j < number;j++) {
 			if (myword[j].getFreque() > max) {
