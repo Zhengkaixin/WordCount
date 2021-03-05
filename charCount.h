@@ -28,9 +28,5 @@ class charCount {
 				}
 			}
 			setNumber(tmp+tmp_1-1);
-		}//¼ÆËã×Ö·ûÊıÄ¿
-		 
-		 /*bool isChar() {
-
-		}*/
+		}
 };

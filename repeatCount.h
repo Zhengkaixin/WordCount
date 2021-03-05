@@ -14,9 +14,10 @@ private:
 	vector<string> v;//用来保存频率最高的10个词
 	vector<string>::iterator it;
 	int* num;
+
 public:
 	repeatCount(int n) {
-		myword = new my_word;
+		myword = new my_word[100];
 		num = (int*)malloc((n + 1) * sizeof(int));
 	}
 
@@ -43,15 +44,11 @@ public:
 		bool flag = true;//标志分隔符
 		
 		while (inputFile.getline(data,256)){
-			//char* data;
-			//int len = str.length();
-			//data = (char*)malloc((len + 1) * sizeof(char));
-			//str.copy(data, len, 0);
 			for (int i = 0;i < strlen(data);i++) {
 				if (isalpha(data[i])) {
-					tolower(data[i]);
+					data[i]=tolower(data[i]);
 				}//全部转换为小写
-				if ((data[i] >= 'a' && data[i] <= 'z') || (data[i] >= 'A' && data[i] <= 'Z')) {
+				if ((data[i] >= 'a' && data[i] <= 'z') || (data[i] >= 'A' && data[i] <= 'Z')||(tmp_1>=4&& (data[i] >= '0' && data[i] <= '9'))){
 					if (flag) {
 						if (tmp_1 == 0) {
 							tmp_2 = i;
@@ -63,22 +60,32 @@ public:
 					tmp_1 = 0;
 					flag = false;
 				}
-				else if (!((data[i] >= 'a' && data[i] <= 'z') ||/* (data[i] >= 'A' && data[i] <= 'Z') ||*/ (data[i] >= '0' && data[i] <= '9'))) {
+				else if (!((data[i] >= 'a' && data[i] <= 'z') || (data[i] >= '0' && data[i] <= '9'))) {
 					flag = true;
 					if (tmp_1 < 4) {
 						tmp_1 = 0;
 					}
 					else {
 						char ch[256]=" ";
-						for (int a=0;a<tmp_1;a++) {
+						for (int a=0;a<i;a++) {
 							ch[a] = data[tmp_2];
 							tmp_2++;
 						}
-						ch[tmp_1] = '\0';
+						ch[i] = '\0';
+						
 						string ch_1(ch);
-						myword[tmp].setStr(ch_1);
-						myword[tmp].addFreque();
-						tmp++;
+						int z = 0;
+						for (z = 0;z < tmp;z++) {
+							if (ch_1 == myword[z].getStr()) {
+								myword[z].addFreque();
+								break;
+							}
+						}
+						if (z == tmp) {
+							myword[tmp].setStr(ch_1);
+							myword[tmp].addFreque();
+							tmp++;
+						}
 						tmp_1 = 0;
 					}
 				}
@@ -90,20 +97,32 @@ public:
 					tmp_2++;
 				}
 				ch[tmp_1] = '\0';
-				myword[tmp].setStr(ch);
-				myword[tmp].addFreque();
-				tmp++;
+				string ch_1(ch);
+				int z = 0;
+				for (z = 0;z < tmp;z++) {
+					if (ch_1 == myword[z].getStr()) {
+						myword[z].addFreque();
+						break;
+					}
+				}
+				if (z == tmp) {
+					myword[tmp].setStr(ch_1);
+					myword[tmp].addFreque();
+					tmp++;
+				}
 				tmp_1 = 0;
 			}
 		}
+		cout << tmp << endl;
 		setNumber(tmp);
 		mySort();
 	}
 
 	void mySort() {
 		int max = myword[0].getFreque();
-		int max_1;
-		int max_len = 10;//最常出现的单词数目
+		int max_1=0;
+		int max_2 = 0;
+		int max_len = 0;//最常出现的单词数目
 		num[0] = 0;
 		for (int j = 0;j < number;j++) {
 			if (myword[j].getFreque() > max) {
@@ -111,19 +130,19 @@ public:
 				num[0] = j;
 			}
 		}
-		v.push_back(myword[num[0]].getStr());
+		//v.push_back(myword[num[0]].getStr());
 		for (int i = 1;i < number;i++) {
+			v_sort.push_back(myword[num[i - 1]].getStr());
+			max_len = i;
 			for (int j = 0;j < number;j++) {
-				max_len = i;
-				if (myword[j].getFreque() == max) {
+				if (myword[j].getFreque() == max && j!=num[i-1]) {
 					num[i] = j;
 					i++;
 				}
 			}
-
 			if (i > max_len) {
 				for (int a = max_len;a < i;a++) {
-					v_sort.push_back(myword[a].getStr());
+					v_sort.push_back(myword[num[a]].getStr());
 				}
 				sort(v_sort.begin(), v_sort.end());
 				for (it = v_sort.begin();it != v_sort.end();it++) {
@@ -132,7 +151,9 @@ public:
 				v_sort.clear();
 			}
 			else {
-				v.push_back(myword[i].getStr());
+				it = v_sort.begin();
+				v.push_back(*it);
+				v_sort.clear();
 			}
 
 			if (i >= 10) {
@@ -149,10 +170,16 @@ public:
 			for (int j = 0;j < number;j++) {
 				if (myword[j].getFreque() > max_1 && myword[j].getFreque() < max) {
 					max_1 = myword[j].getFreque();
-					num[0] = j;
+					num[i] = j;
 				}
 			}
 			max = max_1;
+		}
+		for (it = v.begin();it != v.end();it++) {
+			max_2++;
+		}
+		if (max_2 < 10 && number>10) {
+			v.push_back(myword[num[max_2]].getStr());
 		}
 	}
 };
