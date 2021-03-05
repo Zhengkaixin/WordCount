@@ -1,7 +1,7 @@
 # WordCount
 ## 一、如何运行  
--输入文件和输出文件以命令行参数传入。对于c++我们在命令行窗口(cmd)中输入：
--Wordcount.exe input.txt output.txt
+输入文件和输出文件以命令行参数传入。对于c++我们在命令行窗口(cmd)中输入：  
+Wordcount.exe input.txt output.txt
 ## 二、功能
 ### 1.统计文件的字符数
 只需要统计Ascii码，汉字不需考虑
