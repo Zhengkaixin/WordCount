@@ -8,8 +8,11 @@ class my_word {
 		string str;//printf("%s",str.c_str())
 		int freque=0;
 	public:
-		void setStr(char * ch) {
-			str = ch;
+		my_word() {
+			str = ' ';
+		}
+		void setStr(string str_) {
+			str = str_;
 		}
 		string getStr() {
 			return str;

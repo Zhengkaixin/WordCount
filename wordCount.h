@@ -15,17 +15,18 @@ public:
 		number = number_1;
 	}
 
-	void wordcount(fstream& inputFile) {
-		string str;
+	void wordcount(fstream &inputFile) {
+		//string str;
+		char data[256];
 		int tmp = 0;
 		int tmp_1 = 0;//统计单词开头字母个数
 		bool flag = true;//标志分隔符
-		while (inputFile>>str) {
-			char* data;
+		while (inputFile.getline(data,256) ){
+			/*char* data;
 			int len = str.length();
 			data = (char*)malloc((len + 1) * sizeof(char));
-			str.copy(data, len, 0);
-			for (int i = 0;i < len;i++) {
+			str.copy(data, len, 0);*/
+			for (int i = 0;i < strlen(data);i++) {
 				if (isalpha(data[i])) {
 					tolower(data[i]);
 				}//全部转换为小写
