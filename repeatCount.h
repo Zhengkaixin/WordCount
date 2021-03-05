@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-#include"word.h";
+#include "word.h";
 using namespace std;
 class repeatCount {
 private:
@@ -16,7 +16,7 @@ private:
 	int* num;
 public:
 	repeatCount(int n) {
-		myword = (my_word*)malloc((n + 1) * sizeof(my_word));
+		myword = new my_word;
 		num = (int*)malloc((n + 1) * sizeof(int));
 	}
 
@@ -35,18 +35,19 @@ public:
 	}
 
 	void wordFrequence(fstream& inputFile) {
-		string str;
+		//string str;
+		char data[256];
 		int tmp = 0;
 		int tmp_1 = 0;//统计单词开头字母个数
 		int tmp_2 = 0;//记录单词开头部分的位置
 		bool flag = true;//标志分隔符
 		
-		while (inputFile >> str) {
-			char* data;
-			int len = str.length();
-			data = (char*)malloc((len + 1) * sizeof(char));
-			str.copy(data, len, 0);
-			for (int i = 0;i < len;i++) {
+		while (inputFile.getline(data,256)){
+			//char* data;
+			//int len = str.length();
+			//data = (char*)malloc((len + 1) * sizeof(char));
+			//str.copy(data, len, 0);
+			for (int i = 0;i < strlen(data);i++) {
 				if (isalpha(data[i])) {
 					tolower(data[i]);
 				}//全部转换为小写
@@ -68,25 +69,27 @@ public:
 						tmp_1 = 0;
 					}
 					else {
-						char* ch= (char*)malloc((tmp_1 + 1) * sizeof(char));
+						char ch[256]=" ";
 						for (int a=0;a<tmp_1;a++) {
 							ch[a] = data[tmp_2];
 							tmp_2++;
 						}
-						myword[tmp].setStr(ch);
+						ch[tmp_1] = '\0';
+						string ch_1(ch);
+						myword[tmp].setStr(ch_1);
 						myword[tmp].addFreque();
 						tmp++;
 						tmp_1 = 0;
-						
 					}
 				}
 			}
 			if (tmp_1 >= 4) {
-				char* ch = (char*)malloc((tmp_1 + 1) * sizeof(char));
+				char ch[256]=" ";
 				for (int a = 0;a < tmp_1;a++) {
 					ch[a] = data[tmp_2];
 					tmp_2++;
 				}
+				ch[tmp_1] = '\0';
 				myword[tmp].setStr(ch);
 				myword[tmp].addFreque();
 				tmp++;
@@ -108,6 +111,7 @@ public:
 				num[0] = j;
 			}
 		}
+		v.push_back(myword[num[0]].getStr());
 		for (int i = 1;i < number;i++) {
 			for (int j = 0;j < number;j++) {
 				max_len = i;
